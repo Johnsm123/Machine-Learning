@@ -1,0 +1,43 @@
+import numpy as np #array
+import pandas as pd # dataframes
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+#loadinig the dataset to a pandas dataframe
+sonar_data = pd.read_csv('/content/Copy of sonar data.csv',header=None)
+# number of rows and columns 
+sonar_data.shape
+sonar_data.describe() # describe gives statistical measures of the data
+sonar_data[60].value_counts()
+sonar_data.groupby(60).mean()
+print(X)
+print(Y)
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size=0.1,stratify=Y,random_state=1)
+print(X.shape,X_train.shape,X_test.shape)
+print(X_train)
+print(Y_train)
+model = LogisticRegression()
+#training the logistic regression model with training data
+model.fit(X_train,Y_train)
+#accuracy on the training data
+X_train_prediction = model.predict(X_train)
+training_data_accuracy = accuracy_score(X_train_prediction,Y_train)
+print('Accuracy on training data: ',training_data_acuuracy)
+#accuracy on test data
+X_test_prediction = model.predict(X_test)
+test_data_acuuracy = accuracy_score(X_test_prediction,Y_test)
+print('Accuracy on training data: ',test_data_acuuracy)
+input_data = (0.0162,0.0041,0.0239,0.0441,0.0630,0.0921,0.1368,0.1078,0.1552,0.1779,0.2164,0.2568,0.3089,0.3829,0.4393,0.5335,0.5996,0.6728,0.7309,0.8092,0.8941,0.9668,1.0000,0.9893,0.9376,0.8991,0.9184,0.9128,0.7811,0.6018,0.3765,0.3300,0.2280,0.0212,0.1117,0.1788,0.2373,0.2843,0.2241,0.2715,0.3363,0.2546,0.1867,0.2160,0.1278,0.0768,0.1070,0.0946,0.0636,0.0227,0.0128,0.0173,0.0135,0.0114,0.0062,0.0157,0.0088,0.0036,0.0053,0.0030)
+#changing the input_data to a numpy array
+input_data_as_numpy_array = np.asarray(input_data)
+
+#reshape the np array as we are predicting for one instance
+input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
+
+prediction = model.predict(input_data_reshaped)
+print(prediction)
+
+if(prediction[0]=='R'):
+  print('the object is a Rock')
+else:
+    print('The object is a Mine')
